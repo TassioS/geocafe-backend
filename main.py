@@ -22,7 +22,7 @@ app.include_router(user_router, prefix='/user')
 app.include_router(field_router, prefix='/field')
 app.include_router(map_router, prefix='/map')
 app.include_router(note_router, prefix='/note')
-app.include_router(test_router, prefix='/note')
+app.include_router(test_router, prefix='/test')
 
 
 @app.get("/")
