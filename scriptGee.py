@@ -5,7 +5,7 @@ from geemap import Map, ee_export_image
 
 # %%
 #Inicializando o gee
-#ee.Authenticate()
+ee.Authenticate()
 ee.Initialize()
 
 # %%
