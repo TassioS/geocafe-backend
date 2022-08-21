@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi import Response
-import os
+import os, json
 
 test_router = APIRouter()
 
@@ -12,4 +12,4 @@ async def home():
     "count" : len(dirListing),
     "files" : dirListing
     }
-    return Response(status_code=200, content=responseDict)
+    return Response(status_code=200, content=json.dumps(responseDict, indent = 4))
