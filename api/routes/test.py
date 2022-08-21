@@ -7,7 +7,7 @@ test_router = APIRouter()
 @test_router.get("/")
 async def home():
     img_folder_path = r'images/'
-    dirListing = os.listdir('../../images/')
+    dirListing = os.listdir(img_folder_path)
     responseDict = {
     "count" : len(dirListing),
     "files" : dirListing
