@@ -5,12 +5,13 @@ from geemap import Map, ee_export_image
 
 # %%
 #Inicializando o gee
-ee.Authenticate()
-ee.Initialize()
+service_account = 'testscheduler@tfg-gee-scheduler.iam.gserviceaccount.com'
+credentials = ee.ServiceAccountCredentials(service_account, 'google-credentials.json')
+ee.Initialize(credentials)
 
 # %%
 #Carregando limites do municipio de santo Antonio
-roi = ee.FeatureCollection('users/tassios13/limiteSantoAntonio')
+roi = ee.FeatureCollection('projects/tfg-gee-scheduler/assets/limiteSantoAntonio')
 
 # %%
 #Centralizando o mapa na longitude/latitude/zoom desejados
