@@ -64,8 +64,8 @@ now_string = now.strftime("%d_%m_%Y_%H:%M:%S")
 imgName = imgName.replace('date',now_string)
 
 from decouple import config
-from github import Github
-github = Github(config('GITHUB_ACCESS_TOKEN'))
+from github import GitHub
+github = GitHub(config('GITHUB_ACCESS_TOKEN'))
 
 repository = github.get_user().get_repo('geocafe-backend')
 repository.create_file(imgName, "create_file via PyGithub", img)
