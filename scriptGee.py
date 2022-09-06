@@ -58,10 +58,11 @@ mapObject.addLayer(img, vis_params2)
 
 # %%
 from datetime import datetime
-imgName = './images/STA_NDVI_date.tif'
+imgName = 'STA_NDVI_date.tif'
 now = datetime.now()
 now_string = now.strftime("%d_%m_%Y_%H:%M:%S")
 imgName = imgName.replace('date',now_string)
+pathImg = './images/'+imgName
 
 import boto3
 session = boto3.session.Session()
@@ -72,7 +73,7 @@ s3 = session.client(
     aws_secret_access_key='lVCEWpc0uL8nYl6RyrnR7SV0o9Fe8kLSl01hgKCj'
 )
 
-ee_export_image(img, imgName, scale=90, crs=None, region=roi.geometry(), file_per_band=False)
+ee_export_image(img, pathImg, scale=90, crs=None, region=roi.geometry(), file_per_band=False)
 
-with open(imgName, "rb") as f:
-    s3.upload_fileobj(f, 'scheduler-test-tfg', 'scheduler-test-tfg')
+with open(pathImg, "rb") as f:
+    s3.upload_fileobj(f, 'scheduler-test-tfg', imgName)
