@@ -63,13 +63,16 @@ now = datetime.now()
 now_string = now.strftime("%d_%m_%Y_%H:%M:%S")
 imgName = imgName.replace('date',now_string)
 
-from decouple import config
-from github import Github
-github = Github(config('GITHUB_ACCESS_TOKEN'))
+import boto3
+session = boto3.session.Session()
 
-repository = github.get_user().get_repo('geocafe-backend')
-repository.create_file(imgName, "create_file via PyGithub", img)
+s3 = session.client(
+    service_name='s3',
+    aws_access_key_id='AKIA3ED3KLXYUOMRUTS7',
+    aws_secret_access_key='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'
+)
 
 ee_export_image(img, imgName, scale=90, crs=None, region=roi.geometry(), file_per_band=False)
 
-
+with open(imgName, "rb") as f:
+    s3.upload_fileobj(f, 'scheduler-test-tfg', 'scheduler-test-tfg')
