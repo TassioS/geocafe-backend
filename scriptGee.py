@@ -60,7 +60,7 @@ mapObject.addLayer(img, vis_params2)
 from datetime import datetime
 imgName = 'STA_NDVI_date.tif'
 now = datetime.now()
-now_string = now.strftime("%d_%m_%Y_%H:%M:%S")
+now_string = now.strftime("%d_%m_%Y")
 imgName = imgName.replace('date',now_string)
 pathImg = './images/'+imgName
 
