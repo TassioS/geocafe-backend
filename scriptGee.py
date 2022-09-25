@@ -66,11 +66,11 @@ pathImg = './images/'+imgName
 
 import boto3
 session = boto3.session.Session()
-
+from decouple import config
 s3 = session.client(
     service_name='s3',
-    aws_access_key_id='AKIA3ED3KLXYUOMRUTS7',
-    aws_secret_access_key='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'
+    aws_access_key_id=config('aws_access_key_id'),
+    aws_secret_access_key=config('aws_secret_access_key')
 )
 
 ee_export_image(img, pathImg, scale=90, crs=None, region=roi.geometry(), file_per_band=False)

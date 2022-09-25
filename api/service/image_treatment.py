@@ -7,6 +7,23 @@ import rasterio.features
 import rasterio.warp
 from rasterio.mask import mask as rast_mask
 
+import boto3
+from decouple import config
+
+def get_image_from_s3(date):
+    img_name = f"STA_NDVI_{date}.tif"
+
+    session = boto3.session.Session()
+
+    s3 = session.client(
+    service_name='s3',
+    aws_access_key_id=config('aws_access_key_id'),
+    aws_secret_access_key=config('aws_secret_access_key')
+    )
+
+    with open(f'./images/{img_name}', 'wb') as f:
+        s3.download_fileobj('scheduler-test-tfg', img_name, f)
+
 
 def crop_image(fields, date):
     # the polygon GeoJSON geometry
@@ -19,6 +36,7 @@ def crop_image(fields, date):
         coord.append([field_coordinate[0]['lng'], field_coordinate[0]['lat']])
         geoms.append({"type": "Polygon", "coordinates": [coord]})
     # load the raster, mask it by the polygon and crop it
+    get_image_from_s3(date)
     with rasterio.open(f"images/STA_NDVI_{date}.tif") as src:
         out_image, out_transform = rast_mask(src, geoms, crop=True)
     out_meta = src.meta.copy()
