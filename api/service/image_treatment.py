@@ -13,7 +13,7 @@ from decouple import config
 
 def get_image_from_s3(date):
     img_name = f"STA_NDVI_{date}.tif"
-    img_path = f"../../images/{img_name}"
+    img_path = f"images/{img_name}"
 
     session = boto3.session.Session()
 
