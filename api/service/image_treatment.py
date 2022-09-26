@@ -19,6 +19,7 @@ def get_image_from_s3(date):
     service_name='s3',
     aws_access_key_id=config('aws_access_key_id'),
     aws_secret_access_key=config('aws_secret_access_key')
+    )
 
     with open(f'./images/{img_name}', 'wb') as f:
         s3.download_fileobj('scheduler-test-tfg', img_name, f)
