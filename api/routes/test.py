@@ -16,4 +16,4 @@ async def home():
     "filesOnImageFolder" : dirListing,
     "dates" : retrieve_dates()
     }
-    return Response(status_code=200, content=json.dumps(responseDict, indent = 4))
+    return Response(status_code=200, content=json.dumps(responseDict, indent = 4, , default=str))
