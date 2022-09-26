@@ -17,11 +17,11 @@ def get_image_from_s3(date):
 
     s3 = session.client(
     service_name='s3',
-    aws_access_key_id='AKIA3ED3KLXYUOMRUTS7',
-    aws_secret_access_key='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')
+    aws_access_key_id=config('aws_access_key_id'),
+    aws_secret_access_key=config('aws_secret_access_key')
 
-    with open(f"images/STA_NDVI_{date}.tif", 'wb') as data:
-        s3.download_fileobj('scheduler-test-tfg', img_name, data)
+    with open(f'./images/{img_name}', 'wb') as f:
+        s3.download_fileobj('scheduler-test-tfg', img_name, f)
 
 
 def crop_image(fields, date):
