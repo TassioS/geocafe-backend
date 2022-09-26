@@ -12,16 +12,9 @@ from decouple import config
 
 def get_image_from_s3(date):
     img_name = f"STA_NDVI_{date}.tif"
-    img_path = f"images/{img_name}"
+    img_path = f"/images/{img_name}"
 
-    s3 = boto3.resource(service_name='s3',
-    aws_access_key_id=config('aws_access_key_id'),
-    aws_secret_access_key=config('aws_secret_access_key')
-    )
-
-    s3.download_file('scheduler-test-tfg', img_name, img_path)
-
-    """session = boto3.session.Session()
+    session = boto3.session.Session()
 
     s3 = session.client(
     service_name='s3',
@@ -30,7 +23,7 @@ def get_image_from_s3(date):
     )
 
     with open(img_path, 'wb') as f:
-        s3.download_fileobj('scheduler-test-tfg', img_name, f)"""
+        s3.download_fileobj('scheduler-test-tfg', img_name, f)
 
 
 def crop_image(fields, date):
