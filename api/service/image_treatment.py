@@ -19,7 +19,7 @@ def get_image_from_s3(date):
     aws_access_key_id=config('aws_access_key_id'),
     aws_secret_access_key=config('aws_secret_access_key')
     )
-    s3.meta.client.download_file('scheduler-test-tfg', img_name, f'./images/{img_name}')
+    s3.meta.client.download_file('scheduler-test-tfg', img_name, f'images/{img_name}')
 
 
 def crop_image(fields, date):
