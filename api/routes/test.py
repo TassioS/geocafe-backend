@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Response
 import os, json
+from api.service.image_treatment import get_image_from_s3
 
 from api.service.map import retrieve_dates
 
@@ -8,7 +9,7 @@ test_router = APIRouter()
 
 @test_router.get("/")
 async def home():
-
+    get_image_from_s3('16_09_2022')
     img_folder_path = r'images/'
     dirListing = os.listdir(img_folder_path)
     responseDict = {
