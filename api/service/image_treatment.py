@@ -12,7 +12,7 @@ from decouple import config
 
 def get_image_from_s3(date):
     img_name = f"STA_NDVI_{date}.tif"
-    path_img = './images/'+ img_name
+    img_path = f"images/{img_name}"
     session = boto3.session.Session()
 
     s3 = session.client(
@@ -21,7 +21,7 @@ def get_image_from_s3(date):
     aws_secret_access_key=config('aws_secret_access_key')
     )
 
-    with open(path_img, 'wb') as f:
+    with open(img_path, 'wb') as f:
         s3.download_fileobj('scheduler-test-tfg', img_name, f)
 
 
