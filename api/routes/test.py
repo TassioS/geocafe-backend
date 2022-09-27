@@ -9,7 +9,6 @@ test_router = APIRouter()
 
 @test_router.get("/")
 async def home():
-    get_image_from_s3('16_09_2022')
     img_folder_path = r'images/'
     dirListing = os.listdir(img_folder_path)
     responseDict = {
