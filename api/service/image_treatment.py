@@ -11,6 +11,35 @@ from rasterio.mask import mask as rast_mask
 import boto3
 from decouple import config
 
+def download_dir(client, resource, dist, local='/tmp', bucket='your_bucket'):
+    paginator = client.get_paginator('list_objects')
+    for result in paginator.paginate(Bucket=bucket, Delimiter='/', Prefix=dist):
+        if result.get('CommonPrefixes') is not None:
+            for subdir in result.get('CommonPrefixes'):
+                download_dir(client, resource, subdir.get('Prefix'), local, bucket)
+        for file in result.get('Contents', []):
+            dest_pathname = os.path.join(local, file.get('Key'))
+            if not os.path.exists(os.path.dirname(dest_pathname)):
+                os.makedirs(os.path.dirname(dest_pathname))
+            if not file.get('Key').endswith('/'):
+                resource.meta.client.download_file(bucket, file.get('Key'), dest_pathname)
+
+def download_all_images():
+    session = boto3.session.Session()
+
+    client = session.client(
+    service_name='s3',
+    aws_access_key_id=config('aws_access_key_id'),
+    aws_secret_access_key=config('aws_secret_access_key')
+    )
+
+    resource = boto3.resource(service_name='s3',
+    aws_access_key_id=config('aws_access_key_id'),
+    aws_secret_access_key=config('aws_secret_access_key')
+        )
+
+    download_dir(client, resource, '', 'images/', bucket='scheduler-test-tfg')
+
 def get_image_from_s3(date):
     img_name = f"STA_NDVI_{date}.tif"
     img_path = f"images/{img_name}"
@@ -38,7 +67,6 @@ def crop_image(fields, date):
         coord.append([field_coordinate[0]['lng'], field_coordinate[0]['lat']])
         geoms.append({"type": "Polygon", "coordinates": [coord]})
     # load the raster, mask it by the polygon and crop it
-    get_image_from_s3(date)
     with rasterio.open(f"images/STA_NDVI_{date}.tif") as src:
         out_image, out_transform = rast_mask(src, geoms, crop=True)
     out_meta = src.meta.copy()

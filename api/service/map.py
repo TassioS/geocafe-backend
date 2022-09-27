@@ -27,8 +27,8 @@ def retrieve_objects_list():
 
 def retrieve_dates():
     dates = []
-    images_list = retrieve_objects_list()
-    for filename in images_list:
+    directory = r'images/'
+    for filename in os.listdir(directory):
         if filename.startswith("STA_NDVI_"):
             date = filename.removeprefix('STA_NDVI_').removesuffix('.tif')
             dates.append(datetime.strptime(date, "%d_%m_%Y"))
