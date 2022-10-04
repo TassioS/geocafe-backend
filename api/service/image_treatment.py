@@ -44,6 +44,13 @@ def get_image_from_s3(date):
     img_name = f"STA_NDVI_{date}.tif"
     img_path = f"images/{img_name}"
 
+    try:
+        f = open(img_path)
+        print('Imagem já existe no diretorio /images')
+        return
+    except IOError:
+        print("Imagem não encontrada no diretorio. Iniciando download do s3")
+
     session = boto3.session.Session()
 
     s3 = session.client(
