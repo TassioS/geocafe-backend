@@ -74,7 +74,7 @@ def crop_image(fields, date):
         coord.append([field_coordinate[0]['lng'], field_coordinate[0]['lat']])
         geoms.append({"type": "Polygon", "coordinates": [coord]})
     # load the raster, mask it by the polygon and crop it
-    get_image_from_s3(date)
+    #get_image_from_s3(date)
     with rasterio.open(f"images/STA_NDVI_{date}.tif") as src:
         out_image, out_transform = rast_mask(src, geoms, crop=True)
     out_meta = src.meta.copy()
