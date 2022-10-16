@@ -25,9 +25,9 @@ app.include_router(map_router, prefix='/map')
 app.include_router(note_router, prefix='/note')
 app.include_router(test_router, prefix='/test')
 
-@app.on_event("startup")
-async def startup_event():
-    download_all_images()
+#@app.on_event("startup")
+#async def startup_event():
+#    download_all_images()
 
 @app.get("/")
 async def home():
