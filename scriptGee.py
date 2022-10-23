@@ -2,11 +2,11 @@
 #importando libs
 import ee
 from geemap import Map, ee_export_image
-from datetime import datetime
+import datetime
 
 from api.service.map import retrieve_dates
 
-def getTifImage(start_date):
+def getTifImage(start_date, end_date):
   #Inicializando o gee
   service_account = 'testscheduler@tfg-gee-scheduler.iam.gserviceaccount.com'
   credentials = ee.ServiceAccountCredentials(service_account, 'google-credentials.json')
@@ -24,7 +24,7 @@ def getTifImage(start_date):
   #Obtendo as imagens da coleção
   img = (ee.ImageCollection('LANDSAT/LC08/C02/T1_RT_TOA')
   .filterMetadata('CLOUD_COVER', 'less_than', 50)
-  .filterDate(start_date)
+  .filterDate(start_date, end_date)
   .mosaic()
   .clip(roi))
 
@@ -62,7 +62,7 @@ def getTifImage(start_date):
 
 
   imgName = 'STA_NDVI_date.tif'
-  now = datetime.now()
+  now = datetime.datetime.now()
   now_string = now.strftime("%d_%m_%Y")
   imgName = imgName.replace('date',now_string)
   pathImg = './images/'+imgName
@@ -82,9 +82,10 @@ def getTifImage(start_date):
       s3.upload_fileobj(f, 'scheduler-test-tfg', imgName)
 
 dates = retrieve_dates()
-today = datetime.today()
+today = datetime.datetime.today()
 lastImg = max(dates)
 dayDiff = today - lastImg
-print(dayDiff)
 if(dayDiff.days >= 17):
-  print(getTifImage(today.strftime("%Y-%m-%d")))
+  getTifImage((lastImg+datetime.timedelta(days=1)).strftime("%Y-%m-%d") , (today+datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+else:
+  print(f'Ainda faltam ${dayDiff.days} dias para atualização das imagems do LANDSAT8')
