@@ -76,7 +76,7 @@ def getTifImage(start_date, end_date):
       aws_secret_access_key=config('aws_secret_access_key')
   )
 
-  ee_export_image(img, pathImg, scale=90, crs=None, region=roi.geometry(), file_per_band=False)
+  ee_export_image(ndviQUAD, pathImg, scale=30, crs=None, region=roi.geometry())
 
   with open(pathImg, "rb") as f:
       s3.upload_fileobj(f, 'scheduler-test-tfg', imgName)
@@ -88,4 +88,4 @@ dayDiff = today - lastImg
 if(dayDiff.days >= 17):
   getTifImage((lastImg+datetime.timedelta(days=1)).strftime("%Y-%m-%d") , (today+datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
 else:
-  print(f'Ainda faltam ${dayDiff.days} dias para atualização das imagems do LANDSAT8')
+  print(f'Ainda faltam ${17 - dayDiff.days} dias para atualização das imagems do LANDSAT8')
