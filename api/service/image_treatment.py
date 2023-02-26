@@ -60,7 +60,7 @@ def get_image_from_s3(date):
     )
 
     with open(img_path, 'wb') as f:
-        s3.download_fileobj('scheduler-test-tfg', img_name, f)
+        s3.download_fileobj('bucket-regador', img_name, f)
 
 
 def crop_image(fields, date):

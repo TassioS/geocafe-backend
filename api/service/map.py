@@ -17,7 +17,7 @@ def retrieve_objects_list():
     aws_secret_access_key=config('aws_secret_access_key')
     )
 
-    my_bucket = s3.Bucket('scheduler-test-tfg')
+    my_bucket = s3.Bucket('bucket-regador')
     object_collection = my_bucket.objects.all()
     object_name_list = []
     for img in object_collection:

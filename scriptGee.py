@@ -79,7 +79,7 @@ def getTifImage(start_date, end_date):
   ee_export_image(ndviQUAD, pathImg, scale=30, crs=None, region=roi.geometry())
 
   with open(pathImg, "rb") as f:
-      s3.upload_fileobj(f, 'scheduler-test-tfg', imgName)
+      s3.upload_fileobj(f, 'bucket-regador', imgName)
 
 dates = retrieve_dates()
 today = datetime.datetime.today()
