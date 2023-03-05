@@ -70,6 +70,7 @@ def getTifImage(start_date, end_date):
   import boto3
   session = boto3.session.Session()
   from decouple import config
+  #creating s3 client
   s3 = session.client(
       service_name='s3',
       aws_access_key_id=config('aws_access_key_id'),
