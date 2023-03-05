@@ -38,7 +38,7 @@ def download_all_images():
     aws_secret_access_key=config('aws_secret_access_key')
         )
 
-    download_dir(client, resource, '', 'images/', bucket='scheduler-test-tfg')
+    download_dir(client, resource, '', 'images/', bucket='bucket-regador')
 
 def get_image_from_s3(date):
     img_name = f"STA_NDVI_{date}.tif"
